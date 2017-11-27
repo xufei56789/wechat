@@ -1,6 +1,0 @@
-hash: fa70613a9b142889b37ab81fbde8cc0503724c36ea5010b681131418db809c31
-updated: 2017-11-27T23:17:08.847496646+08:00
-imports:
-- name: github.com/changx123/httpx
-  version: 40f222dc7859bb55791cdb81778527976a3f150d
-testImports: []
