@@ -55,7 +55,7 @@ func (httpx *Httpx) SetRedirect(i int) {
 		}
 		//如果 当前重定向次数 >= 重定向次数停止
 		if len(via) >= i {
-			return errors.New("stopped after "+strconv.Itoa(i)+" redirects")
+			return errors.New("stopped after " + strconv.Itoa(i) + " redirects")
 		}
 		return nil
 	}
@@ -64,7 +64,7 @@ func (httpx *Httpx) SetRedirect(i int) {
 }
 
 //是否跳过证书检查
-func (httpx *Httpx) SetInsecureSkipVerify(b bool)  {
+func (httpx *Httpx) SetInsecureSkipVerify(b bool) {
 	httpx.getConfigTls().InsecureSkipVerify = true
 }
 

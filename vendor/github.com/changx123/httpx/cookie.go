@@ -15,7 +15,7 @@ func (httpx *Httpx) SetAutoSaveCookie(b bool) error {
 			return err
 		}
 		httpx.SetJarCookie(jar)
-	}else {
+	} else {
 		httpx.SetJarCookie(nil)
 	}
 	return nil

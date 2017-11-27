@@ -12,7 +12,7 @@ type Httpx struct {
 	//协议头指针
 	header *http.Header
 	//配置指针
-	configTr *http.Transport
+	configTr  *http.Transport
 	configTls *tls.Config
 }
 
