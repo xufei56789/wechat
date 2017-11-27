@@ -1,0 +1,3 @@
+package: wechat
+import:
+- package: github.com/changx123/httpx
