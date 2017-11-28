@@ -3,15 +3,13 @@ package wechat
 import (
 	"github.com/changx123/httpx"
 	"net/http"
+	"wechat/function"
 )
 
 type Wechat struct {
 	//httpx指针
 	httpx *httpx.Httpx
 }
-
-//用户浏览器类型(防封设置)
-var UserAgent = []string{"Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0"}
 
 //获取新的httpx指针对象
 func getNewHttpx() *httpx.Httpx {
@@ -21,17 +19,35 @@ func getNewHttpx() *httpx.Httpx {
 	//阻止302跳转
 	hx.SetRedirect(0)
 	//设置协议头
-	var h *http.Header
-	h.Set("User-Agent", UserAgent[0])
+	var h http.Header
+	h = make(http.Header,5)
+	h.Set("User-Agent", UserAgent[function.RandInt(len(UserAgent))])
 	h.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 	h.Set("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3")
 	h.Set("Connection", "keep-alive")
 	h.Set("Upgrade-Insecure-Requests", "1")
-	hx.SetHeader(h)
+	hx.SetHeader(&h)
 	return hx
 }
 
 //设置代理ip
 func (w *Wechat) SetProxy(url string) {
 	w.httpx.SetProxy(url)
+}
+
+//初始化web微信cookie 等数据
+func (w *Wechat) Init() {
+	w.httpx = getNewHttpx()
+	w.httpx.Get("https://wx2.qq.com/?&lang=zh_CN")
+}
+
+//获取web微信uuid
+func (w *Wechat) GetUUid() (string , error) {
+	sTime := function.GetNewTime()
+	sTime = function.RegexpString(sTime,0,13)
+	resp , err := w.httpx.Get("https://login.wx.qq.com/jslogin?appid=wx782c26e4c19acffb&redirect_uri=https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage&fun=new&lang=zh_CN&_="+sTime)
+	if err != nil {
+		return "" , err
+	}
+	return string(resp.Body) , nil
 }
