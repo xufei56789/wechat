@@ -8,25 +8,26 @@ import (
 	"xufei/wechat"
 )
 
-const (
-	APPID 	= "wx782c26e4c19acffb"
-	FUN		= "new"
-	Lang 	= "zh_CN"
-	TimeStamp = ""
-)
 
 func GetUUID() (string, error){
 	uuidPara := map[string]string{
-		APPID:     "wx782c26e4c19acffb",
-		FUN:       "new",
-		Lang:      Lang,
-		TimeStamp: ""}
-	uuidPara[TimeStamp]	= fmt.Sprintf("%d", time.Now().Unix())
-	fmt.Println(uuidPara)
+		"appid":     "wx782c26e4c19acffb",
+		"fun":       "new",
+		"lang":      "zh_CN",
+		"timeStamp": ""}
+	uuidPara["timeStamp"]	= fmt.Sprintf("%d", time.Now().Unix())
+	var result string = "?"
+	for key, value := range uuidPara {
+		result += fmt.Sprintf("%s=%s&",key, value)
+	}
+	resp , err:= http.Get(wechat.UUID_URL + result)
+	if err != nil {
+		panic("访问微信服务器失败")
+	}
+	defer resp.Body.Close()
 
 
-
-	http.Get(wechat.UUID_URL + "s")
+	fmt.Println(resp)
 
 
 
