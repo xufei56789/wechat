@@ -3,7 +3,7 @@ package wechat
 import (
 	"github.com/changx123/httpx"
 	"net/http"
-	"wechat/function"
+	"xufei/wechat/function"
 )
 
 type Wechat struct {
