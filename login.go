@@ -55,7 +55,7 @@ func (w *Wechat) CheckLogin(uuid string){
 	paraMap := w.GetLoginPara()
 	paraMap["uuid"] = uuid
 	paraMap["TimeStamp"] = sTime
-	paraMap["R"] = sTime
+	paraMap["R"] = reverseString(sTime)
 	uPar := w.FormatParams(paraMap)
 	resp , err :=w.httpx.Get("https://login.weixin.qq.com/cgi-bin/mmwebwx-bin/login"+uPar)
 	if err != nil {
@@ -75,5 +75,16 @@ func (w *Wechat) FormatParams(values ...interface{}) string{
 	}
 	return result
 }
+
+func reverseString(s string) string {
+	runes := []rune(s)
+
+	for from, to := 0, len(runes)-1; from < to; from, to = from + 1, to - 1 {
+		runes[from], runes[to] = runes[to], runes[from]
+	}
+
+	return string(runes)
+}
+
 
 
